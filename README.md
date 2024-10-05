@@ -1,6 +1,6 @@
 # SQL Portfolio 1 - Create a new payments table
 
-This is a solution to the Challenge Payment Question in this case study, [Foodie-Fi](https://8weeksqlchallenge.com/case-study-3/).
+Through this case study, I aim to demonstrate my skills in utilizing SQL to extract, manipulate, and prepare data from multiple sources. I'll take you through the steps I followed to solve the Payment Challenge in the [Foodie-Fi](https://8weeksqlchallenge.com/case-study-3/) case study.
 
 ## Overview
 
