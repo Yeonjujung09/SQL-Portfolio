@@ -35,6 +35,7 @@ The Foodie-Fi team needs a new `payments` table for the year 2020 that includes 
 - upgrades from pro monthly to pro annual are paid at the end of the current billing period and also start at the end of the month period
 - once a customer churns they will no longer make payments.
 Example outputs for this table might look like the following:
+
 |customer_id|plan_id|plan_name|payment_date|amount|payment_order|
 |-----------|-------|---------|------------|------|-------------|
 |1|1|basic monthly|2020-08-08|9.90|1|
@@ -42,6 +43,7 @@ Example outputs for this table might look like the following:
 |1|1|basic monthly|2020-10-08|9.90|3|
 |1|1|basic monthly|2020-11-08|9.90|4|
 |1|1|basic monthly|2020-12-08|9.90|5|
+
 
 ## Exploration
 ### Step 1 - Identify what types of plan transitions there are
