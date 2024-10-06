@@ -104,6 +104,183 @@ Reviewing the query results, it seems there are three different scenarios for pl
 - case 5: annual pro payments
 
 ## Solution
+    WITH lead_plans AS (
+    SELECT
+      customer_id,
+      plan_id,
+      start_date,
+      LEAD(plan_id) OVER (PARTITION BY customer_id ORDER BY start_date) AS lead_plan_id,
+      LEAD(start_date) OVER (PARTITION BY customer_id ORDER BY start_date) AS lead_start_date
+    FROM foodie_fi.subscriptions
+    WHERE DATE_PART('year', start_date) = 2020
+    AND plan_id != 0
+    )
+    ,case_1 AS (
+    SELECT 
+      customer_id
+      ,plan_id
+      ,start_date
+      ,DATE_PART('mon', AGE('2020-12-31'::DATE, start_date))::INTEGER AS month_diff
+    FROM lead_plans
+    WHERE lead_plan_id IS NULL AND plan_id NOT IN (3,4)
+    )
+    ,case_1_payments AS (
+    SELECT
+      customer_id
+      ,plan_id
+      ,(start_date + GENERATE_SERIES(0,month_diff)*INTERVAL '1 month')::DATE AS start_date
+    FROM case_1
+    )
+    ,case_2 AS (
+    SELECT
+      customer_id
+      ,plan_id
+      ,start_date
+      ,DATE_PART('mon', AGE(lead_start_date-1, start_date))::INTEGER AS month_diff
+    FROM lead_plans
+    WHERE lead_plan_id = 4
+    )
+    ,case_2_payments AS (
+    SELECT
+      customer_id
+      ,plan_id
+      ,(start_date + GENERATE_SERIES(0, month_diff) * INTERVAL '1 month')::DATE AS start_date
+    FROM case_2
+    )
+    ,case_3 AS (
+    SELECT
+      customer_id
+      ,plan_id
+      ,start_date
+      ,DATE_PART('mon', AGE(lead_start_date-1, start_date))::INTEGER AS month_diff
+    FROM lead_plans
+    WHERE plan_id = 1 AND lead_plan_id IN (2,3)
+    )
+    ,case_3_payments AS (
+    SELECT
+      customer_id
+      ,plan_id
+      ,(start_date + GENERATE_SERIES(0,month_diff)*INTERVAL '1 month')::DATE AS start_date
+    FROM case_3
+    )
+    ,case_4 AS (
+    SELECT
+      customer_id
+      ,plan_id
+      ,start_date
+      ,DATE_PART('mon', AGE(lead_start_date-1, start_date))::INTEGER AS month_diff
+    FROM lead_plans
+    WHERE plan_id = 2 AND lead_plan_id=3
+    )
+    ,case_4_payments AS (
+    SELECT
+      customer_id
+      ,plan_id
+      ,(start_date + GENERATE_SERIES(0, month_diff)*INTERVAL '1 month') AS start_date
+    FROM case_4
+    )
+    ,case_5_payments AS (
+    SELECT
+      customer_id
+      ,plan_id
+      ,start_date
+    FROM lead_plans
+    WHERE plan_id = 3
+    )
+    ,union_output AS (
+    SELECT *
+    FROM case_1_payments
+    UNION
+    SELECT *
+    FROM case_2_payments
+    UNION
+    SELECT *
+    FROM case_3_payments
+    UNION
+    SELECT *
+    FROM case_4_payments
+    UNION
+    SELECT *
+    FROM case_5_payments
+    )
+    
+    SELECT 
+      customer_id
+      ,plans.plan_id
+      ,plans.plan_name
+      ,start_date AS payment_date
+      ,CASE WHEN union_output.plan_id IN (2,3) AND LAG(union_output.plan_id) OVER w = 1
+      THEN plans.price - 9.90
+      ELSE plans.price END AS amount
+      ,ROW_NUMBER() OVER w AS payment_order
+    FROM union_output
+    INNER JOIN foodie_fi.plans USING (plan_id)
+    WINDOW w AS (PARTITION BY customer_id ORDER BY start_date)
+    
+    
+    
+    WITH cte_monthly_balances AS (
+      SELECT
+        customer_id,
+        DATE_TRUNC('mon', txn_date)::DATE AS month,
+        SUM(
+          CASE
+            WHEN txn_type = 'deposit' THEN txn_amount
+            ELSE (-txn_amount)
+            END
+        ) AS balance
+      FROM data_bank.customer_transactions
+      GROUP BY customer_id, month
+      ORDER BY customer_id, month
+    ),
+    cte_generated_months AS (
+      SELECT
+        customer_id,
+        (
+          DATE_TRUNC('mon', MIN(txn_date))::DATE +
+          GENERATE_SERIES(0, 1) * INTERVAL '1 MONTH'
+        )::DATE AS month,
+        GENERATE_SERIES(1, 2) AS month_number
+      FROM data_bank.customer_transactions
+      GROUP BY customer_id
+    ),
+    cte_monthly_transactions AS (
+      SELECT
+        cte_generated_months.customer_id,
+        cte_generated_months.month,
+        cte_generated_months.month_number,
+        COALESCE(cte_monthly_balances.balance, 0) AS transaction_amount
+      FROM cte_generated_months
+      LEFT JOIN cte_monthly_balances
+        ON cte_generated_months.month = cte_monthly_balances.month
+        AND cte_generated_months.customer_id = cte_monthly_balances.customer_id
+    )
+    ,base AS (
+      SELECT
+        customer_id
+        ,MAX(CASE WHEN month_number = 1 THEN balance ELSE NULL END) AS month_1_balance
+        ,MAX(CASE WHEN month_number = 2 THEN balance ELSE NULL END) AS month_2_balance
+      FROM (
+        SELECT
+          *
+          ,SUM(transaction_amount) OVER (PARTITION BY customer_id ORDER BY month_number) AS balance
+        FROM cte_monthly_transactions
+      ) AS sub
+      GROUP BY 1
+    )
+    SELECT
+      ROUND(SUM(CASE WHEN month_1_balance < 0 THEN 1 ELSE 0 END)*100 / SUM(COUNT(1)) OVER ()) AS negative_first_month
+      ,ROUND(SUM(CASE WHEN month_1_balance > 0 THEN 1 ELSE 0 END)*100 / SUM(COUNT(1)) OVER ())  AS positive_first_month
+    --Increase their opening month’s positive closing balance by more than 5% in the following month?
+      ,ROUND(SUM(CASE WHEN month_1_balance > 0 AND month_2_balance >= month_1_balance*1.05 THEN 1
+                    WHEN month_1_balance < 0 AND month_2_balance >= (month_1_balance - (month_1_balance*0.05)) THEN 1
+                    ELSE 0 END)*100 / SUM(COUNT(1)) OVER ()) AS increase_5_pct
+      ,ROUND(SUM(CASE WHEN month_1_balance > 0 AND month_2_balance <= month_1_balance*0.95 THEN 1
+                    WHEN month_1_balance < 0 AND month_2_balance <= (month_1_balance + (month_1_balance*0.05)) THEN 1
+                    ELSE 0 END)*100 / SUM(COUNT(1)) OVER ()) AS decrease_5_pct
+      ,ROUND(SUM(CASE WHEN month_1_balance > 0 AND month_2_balance < 0 THEN 1 ELSE 0 END)*100 / SUM(COUNT(1)) OVER ()) AS p_to_n
+    FROM base
+
 
     Give the example
 
