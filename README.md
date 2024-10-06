@@ -71,6 +71,30 @@ I used the `LEAD` window function on both `plan_id` and `start_date` columns to 
 Also, I removed the first row where customers are on a free trial as all customers start on a free trial.
 I assumed that any record where the `lead_plan_id` and `lead_start_date` values are missing is the "last" or latest record for that specific customer in 2020.
 
+Reviewing the query results, it seems there are three distinct scenarios for plan changes:
+-Basic monthly plan customers move freely to all states
+
+|plan_id|lead_plan_id|transition_count|
+|-------|------------|----------------|
+|1|2|163|
+|1|3|88|
+|1|4|63|
+|1|null|224|
+
+-Monthly pro customers only seem to move to the annual plan or churn states
+
+|plan_id|lead_plan_id|transition_count|
+|-------|------------|----------------|
+|2|3|70|
+|2|4|83|
+|2|null|326|
+
+-No annual customers or churn customers moved to another plan in 2020
+
+|plan_id|lead_plan_id|transition_count|
+|-------|------------|----------------|
+|3|null|195|
+|4|null|236|
 
 ### Installing
 
