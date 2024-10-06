@@ -3,13 +3,17 @@
 Through this case study, I aim to demonstrate my skills in utilizing SQL to extract, manipulate, and prepare data from multiple sources. I'll take you through the steps I followed to solve the Payment Challenge in the [Foodie-Fi](https://8weeksqlchallenge.com/case-study-3/) case study.
 
 ## Overview
-### Background
-Table 1: plans (plan_id / plan_name / price)
-- Customers can choose which plans to join Foodie-Fi when they first sign up.
-- Basic plan customers have limited access and can only stream their videos and is only available monthly at $9.90
-- Pro plan customers have no watch time limits and can download videos for offline viewing. Pro plans start at $19.90 a month or $199 for an annual subscription.
-- Customers can sign up for an initial 7-day free trial will automatically continue with the pro monthly subscription plan unless they cancel, downgrade to basic, or upgrade to an annual pro plan at any point during the trial.
-- When customers cancel their Foodie-Fi service - they will have a churn plan record with a null price but their plan will continue until the end of the billing period.
+### Given tables
+Table 1: plans
+| plan_id  | plan_name | price |
+| ---------| ----------| ------|
+| 0| trial| 0|
+| 1| basic monthly| 9.90|
+| 2| pro monthly| 19.90|
+| 3| pro annual| 199|
+| 4| churn| null|
+- After the initial 7-day free trial, the pro monthly subscription plan will automatically continue unless they cancel, downgrade to basic, or upgrade to an annual pro plan at any point during the trial.
+- When customers cancel their Foodie-Fi service, they will have a churn plan record with a null price but their plan will continue until the end of the billing period.
 
 Table 2: subscriptions (customer_id	/ plan_id / start_date)
 - If customers downgrade from a pro plan or cancel their subscription - the higher plan will remain in place until the period is over - the start_date in the subscriptions table will reflect the date that the actual plan changes.
