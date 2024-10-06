@@ -26,10 +26,15 @@ The Foodie-Fi team needs a new `payments` table for the year 2020 that includes 
 (You can find the example outputs for this table at the bottom of this [page](https://8weeksqlchallenge.com/case-study-3/).)
 
 ## Exploration
-### Step 1 - 
-Identify what types of plan transitions Requirements for the software and other tools to build, test and push 
-- [Example 1](https://www.example.com)
-- [Example 2](https://www.example.com)
+### Step 1 - Identify what types of plan transitions there are
+    SELECT
+        customer_id
+        ,plan_id
+        ,start_date
+        ,LEAD(plan_id) OVER (PARTITION BY customer_id ORDER BY start_date) AS lead_plan_id
+        ,LEAD(start_date) OVER (PARTITION BY customer_id ORDER BY start_date) AS lead_start_date
+    FROM subscriptions
+    WHERE DATE_PART('year', start_date) = 2021
 
 ### Installing
 
