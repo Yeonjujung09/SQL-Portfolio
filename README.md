@@ -104,7 +104,7 @@ Reviewing the query results, it seems there are three different scenarios for pl
 - case 5: annual pro payments
 
 ## Solution
-    > first generate the lead plans table as above
+    _first generate the lead plans table as above_
     WITH lead_plans AS (
     SELECT
       customer_id,
