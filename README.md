@@ -71,7 +71,7 @@ I used the `LEAD` window function on both `plan_id` and `start_date` columns to 
 Also, I removed the first row where customers are on a free trial as all customers start on a free trial.
 I assumed that any record where the `lead_plan_id` and `lead_start_date` values are missing is the "last" or latest record for that specific customer in 2020.
 
-Reviewing the query results, it seems there are three distinct scenarios for plan changes:
+Reviewing the query results, it seems there are three different scenarios for plan changes:
 - Basic monthly plan customers move freely to all states
 
 |plan_id|lead_plan_id|transition_count|
@@ -96,12 +96,14 @@ Reviewing the query results, it seems there are three distinct scenarios for pla
 |3|null|195|
 |4|null|236|
 
-### Installing
+### Step 2 - Breakdown each senario into multiple cases
+- case 1: non churn monthly customers
+- case 2: churn customers
+- case 3: customers who move from basic to pro plans
+- case 4: pro monthly customers who move up to annual plans
+- case 5: annual pro payments
 
-A step by step series of examples that tell you how to get a development
-environment running
-
-Say what the step will be
+## Solution
 
     Give the example
 
@@ -112,43 +114,7 @@ And repeat
 End with an example of getting some data out of the system or using it
 for a little demo
 
-## Running the tests
 
-Explain how to run the automated tests for this system
-
-### Sample Tests
-
-Explain what these tests test and why
-
-    Give an example
-
-### Style test
-
-Checks if the best practices and the right coding style has been used.
-
-    Give an example
-
-## Deployment
-
-Add additional notes to deploy this on a live system
-
-## Built With
-
-  - [Contributor Covenant](https://www.contributor-covenant.org/) - Used
-    for the Code of Conduct
-  - [Creative Commons](https://creativecommons.org/) - Used to choose
-    the license
-
-## Contributing
-
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code
-of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [Semantic Versioning](http://semver.org/) for versioning. For the versions
-available, see the [tags on this
-repository](https://github.com/PurpleBooth/a-good-readme-template/tags).
 
 ## Authors
 
