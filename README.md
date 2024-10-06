@@ -5,7 +5,7 @@ Through this case study, I aim to demonstrate my skills in utilizing SQL to extr
 ## Overview
 ### Given tables
 Table 1: plans
-| plan_id  | plan_name | price |
+| plan_id  |plan_name | price |
 | ---------| ----------| ------|
 | 0| trial| 0|
 | 1| basic monthly| 9.90|
@@ -15,7 +15,15 @@ Table 1: plans
 - After the initial 7-day free trial, the pro monthly subscription plan will automatically continue unless they cancel, downgrade to basic, or upgrade to an annual pro plan at any point during the trial.
 - When customers cancel their Foodie-Fi service, they will have a churn plan record with a null price but their plan will continue until the end of the billing period.
 
-Table 2: subscriptions (customer_id	/ plan_id / start_date)
+Table 2: subscriptions
+| customer_id  |plan_id | start_date |
+| -------------| -------| -----------|
+| 1| 0| 2020-08-01|
+| 1| 1| 2020-08-08|
+| 2| 0| 2020-09-20|
+| 2| 3| 2020-09-27|
+| 11| 0| 2020-11-19|
+| 11| 4| 2020-11-26|
 - If customers downgrade from a pro plan or cancel their subscription - the higher plan will remain in place until the period is over - the start_date in the subscriptions table will reflect the date that the actual plan changes.
 - When customers upgrade their account from a basic plan to a pro or annual pro plan - the higher plan will take effect straight away.
 - When customers churn - they will keep their access until the end of their current billing period but the start_date will be technically the day they decide to cancel their service.
