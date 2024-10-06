@@ -230,23 +230,6 @@ Reviewing the query results, it seems there are three different scenarios for pl
     WINDOW w AS (PARTITION BY customer_id ORDER BY start_date)
 ```
 
-## Authors
-
-  - **Billie Thompson** - *Provided README Template* -
-    [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of
-[contributors](https://github.com/PurpleBooth/a-good-readme-template/contributors)
-who participated in this project.
-
-## License
-
-This project is licensed under the [CC0 1.0 Universal](LICENSE.md)
-Creative Commons License - see the [LICENSE.md](LICENSE.md) file for
-details
-
 ## Acknowledgments
 
-  - Hat tip to anyone whose code is used
-  - Inspiration
-  - etc
+  - [8 weeks SQL challenge](https://8weeksqlchallenge.com/)
