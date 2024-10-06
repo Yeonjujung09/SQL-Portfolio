@@ -34,6 +34,7 @@ The Foodie-Fi team needs a new `payments` table for the year 2020 that includes 
 - upgrades from basic to monthly or pro plans are reduced by the current paid amount in that month and start immediately
 - upgrades from pro monthly to pro annual are paid at the end of the current billing period and also start at the end of the month period
 - once a customer churns they will no longer make payments.
+
 Example outputs for this table might look like the following:
 
 |customer_id|plan_id|plan_name|payment_date|amount|payment_order|
@@ -69,6 +70,7 @@ Example outputs for this table might look like the following:
 I used the `LEAD` window function on both `plan_id` and `start_date` columns to figure out what is the following plan that a customer switches to.
 Also, I removed the first row where customers are on a free trial as all customers start on a free trial.
 I assumed that any record where the `lead_plan_id` and `lead_start_date` values are missing is the "last" or latest record for that specific customer in 2020.
+
 
 ### Installing
 
