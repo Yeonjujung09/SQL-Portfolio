@@ -37,11 +37,11 @@ The Foodie-Fi team needs a new `payments` table for the year 2020 that includes 
 Example outputs for this table might look like the following:
 |customer_id|plan_id|plan_name|payment_date|amount|payment_order|
 |-----------|-------|---------|------------|------|-------------|
-|1|	1|	basic monthly|	2020-08-08|	9.90|	1|
-|1|	1|	basic monthly|	2020-09-08|	9.90|	2|
-|1|	1|	basic monthly|	2020-10-08|	9.90|	3|
-|1|	1|	basic monthly|	2020-11-08|	9.90|	4|
-|1|	1|	basic monthly|	2020-12-08|	9.90|	5|
+|1|1|basic monthly|2020-08-08|9.90|1|
+|1|1|basic monthly|2020-09-08|9.90|2|
+|1|1|basic monthly|2020-10-08|9.90|3|
+|1|1|basic monthly|2020-11-08|9.90|4|
+|1|1|basic monthly|2020-12-08|9.90|5|
 
 ## Exploration
 ### Step 1 - Identify what types of plan transitions there are
