@@ -28,14 +28,20 @@ Table 2: subscriptions
 - When customers upgrade their account from a basic plan to a pro or annual pro plan - the higher plan will take effect straight away.
 - When customers churn - they will keep their access until the end of their current billing period but the start_date will be technically the day they decide to cancel their service.
 
-### Objective
+### Desired outcome
 The Foodie-Fi team needs a new `payments` table for the year 2020 that includes amounts paid by each customer in the `subscriptions` table with the following requirements:
-
 - monthly payments always occur on the same day of month as the original `start_date` of any monthly paid plan
 - upgrades from basic to monthly or pro plans are reduced by the current paid amount in that month and start immediately
 - upgrades from pro monthly to pro annual are paid at the end of the current billing period and also start at the end of the month period
 - once a customer churns they will no longer make payments.
-(You can find the example outputs for this table at the bottom of this [page](https://8weeksqlchallenge.com/case-study-3/))
+Example outputs for this table might look like the following:
+|customer_id|plan_id|plan_name|payment_date|amount|payment_order|
+|-----------|-------|---------|------------|------|-------------|
+|1|	1|	basic monthly|	2020-08-08|	9.90|	1|
+|1|	1|	basic monthly|	2020-09-08|	9.90|	2|
+|1|	1|	basic monthly|	2020-10-08|	9.90|	3|
+|1|	1|	basic monthly|	2020-11-08|	9.90|	4|
+|1|	1|	basic monthly|	2020-12-08|	9.90|	5|
 
 ## Exploration
 ### Step 1 - Identify what types of plan transitions there are
