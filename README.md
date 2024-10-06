@@ -104,6 +104,7 @@ Reviewing the query results, it seems there are three different scenarios for pl
 - case 5: annual pro payments
 
 ## Solution
+    ***--first generate the lead plans table as above***
     WITH lead_plans AS (
     SELECT
       customer_id,
@@ -115,6 +116,7 @@ Reviewing the query results, it seems there are three different scenarios for pl
     WHERE DATE_PART('year', start_date) = 2020
     AND plan_id != 0
     )
+    ***--case 1: non churn monthly subscribers*** 
     ,case_1 AS (
     SELECT 
       customer_id
@@ -122,8 +124,10 @@ Reviewing the query results, it seems there are three different scenarios for pl
       ,start_date
       ,DATE_PART('mon', AGE('2020-12-31'::DATE, start_date))::INTEGER AS month_diff
     FROM lead_plans
+    ***--not churn and annual subscribers
     WHERE lead_plan_id IS NULL AND plan_id NOT IN (3,4)
     )
+    ***--generate a series to add the months to each start_date***
     ,case_1_payments AS (
     SELECT
       customer_id
@@ -131,6 +135,7 @@ Reviewing the query results, it seems there are three different scenarios for pl
       ,(start_date + GENERATE_SERIES(0,month_diff)*INTERVAL '1 month')::DATE AS start_date
     FROM case_1
     )
+    ***--case 2: churn customers***
     ,case_2 AS (
     SELECT
       customer_id
@@ -138,6 +143,7 @@ Reviewing the query results, it seems there are three different scenarios for pl
       ,start_date
       ,DATE_PART('mon', AGE(lead_start_date-1, start_date))::INTEGER AS month_diff
     FROM lead_plans
+    ***--churn accounts only***
     WHERE lead_plan_id = 4
     )
     ,case_2_payments AS (
@@ -147,6 +153,7 @@ Reviewing the query results, it seems there are three different scenarios for pl
       ,(start_date + GENERATE_SERIES(0, month_diff) * INTERVAL '1 month')::DATE AS start_date
     FROM case_2
     )
+    ***--case 3: customers who move from basic to pro plans***
     ,case_3 AS (
     SELECT
       customer_id
@@ -163,6 +170,7 @@ Reviewing the query results, it seems there are three different scenarios for pl
       ,(start_date + GENERATE_SERIES(0,month_diff)*INTERVAL '1 month')::DATE AS start_date
     FROM case_3
     )
+    ***--case 4: pro monthly subscribers who move up to annual plans***
     ,case_4 AS (
     SELECT
       customer_id
@@ -179,6 +187,7 @@ Reviewing the query results, it seems there are three different scenarios for pl
       ,(start_date + GENERATE_SERIES(0, month_diff)*INTERVAL '1 month') AS start_date
     FROM case_4
     )
+    ***--case 5: annual pro subscribers***
     ,case_5_payments AS (
     SELECT
       customer_id
@@ -187,6 +196,7 @@ Reviewing the query results, it seems there are three different scenarios for pl
     FROM lead_plans
     WHERE plan_id = 3
     )
+    ***--union all case tables***
     ,union_output AS (
     SELECT *
     FROM case_1_payments
@@ -209,6 +219,7 @@ Reviewing the query results, it seems there are three different scenarios for pl
       ,plans.plan_id
       ,plans.plan_name
       ,start_date AS payment_date
+      ***--price deductions are applied here***
       ,CASE WHEN union_output.plan_id IN (2,3) AND LAG(union_output.plan_id) OVER w = 1
       THEN plans.price - 9.90
       ELSE plans.price END AS amount
