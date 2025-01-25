@@ -1,6 +1,6 @@
 # SQL Project 2 - Retention Analysis
 
-Through this case study, I aim to demonstrate my skills in utilizing SQL to perform retention analysis.
+Through this case study, I aim to demonstrate my skills in utilizing SQL to perform retention and revenue analysis.
 
 ### Table Creation
 Table 1: retention
