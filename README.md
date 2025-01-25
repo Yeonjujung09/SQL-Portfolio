@@ -28,10 +28,9 @@ Table 2: payment
 | 5| iteamE| 20000| 2019-12-01 | 975 |
 
 ## Outcome
-- Using the results from Retention_Analysis, I created a visualization as shown in the screenshot below.
-<img width="922" alt="Retention_Analysis" src="https://github.com/user-attachments/assets/7760eeda-b8e3-422e-a059-1231d905e251" />
-
+- Using the results from Retention_Analysis, I created a visualization as shown in the screenshot below.4
+<img width="854" alt="Retention_Analysis" src="https://github.com/user-attachments/assets/692afb82-309d-4832-8fdc-8dbc14c1eea5" />
 
 - Using the results from Revenue_Analysis, I generated a visualization and performed revenue predictions, as illustrated in the screenshot below.
-<img width="658" alt="Revenue_Analysis_1" src="https://github.com/user-attachments/assets/1e8cf645-9acd-42fa-a918-47c370337b58" />
+<img width="618" alt="Revenue_Analysis" src="https://github.com/user-attachments/assets/a6c446d1-6ad1-4c2a-b0b5-97113a30a4c3" />
 
