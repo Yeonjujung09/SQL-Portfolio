@@ -27,3 +27,9 @@ Table 2: payment
 | 3| itemA| 3000| 2019-12-01 | 1210 |
 | 4| itemA| 3000| 2019-12-01 | 1242 |
 | 5| iteamE| 20000| 2019-12-01 | 975 |
+
+### Desired outcome
+Using the results from Retention_Analysis, I created a visualization as shown in the screenshot below.
+<img width="922" alt="Retention_Analysis" src="https://github.com/user-attachments/assets/7760eeda-b8e3-422e-a059-1231d905e251" />
+
+Using the results from Revenue_Analysis, I generated a visualization and performed revenue predictions, as illustrated in the screenshot below.
