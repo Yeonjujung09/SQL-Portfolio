@@ -5,7 +5,7 @@ Through this project, I aim to demonstrate my skills in utilizing SQL to perform
 ## Table Creation
 Table 1: retention
 - This table stores each user's sign-up date along with their last login date for retention analysis
-(Please see [project2-1_table_creation_retention](https://github.com/Yeonjujung09/8-weeks-SQL-challenge/blob/main/project2-1_creating_table_for_signup.sql) for more details)
+(Please see [project2-1_table_creation_retention](https://github.com/Yeonjujung09/SQL-Portfolio/blob/main/project2-1_table_creation_retention.sql) for more details)
 
 | user_id  |sign_up | last_login |
 | ---------| ----------| ------|
@@ -17,7 +17,7 @@ Table 1: retention
 
 Table 2: payment
 - This table includes payment transaction records from December 2019 for revenue analysis
-(Please see [project2-1_table_creation_payment](https://github.com/Yeonjujung09/8-weeks-SQL-challenge/blob/main/project2-2_table_creation_payment.sql) for more details)
+(Please see [project2-1_table_creation_payment](https://github.com/Yeonjujung09/SQL-Portfolio/blob/main/project2-2_table_creation_payment.sql) for more details)
 
 | payment_id  |items | amount | buy_date | user_id
 | ---------| ----------| ------| --------| -------|
@@ -28,9 +28,9 @@ Table 2: payment
 | 5| iteamE| 20000| 2019-12-01 | 975 |
 
 ## Outcome
-- Using the results from Retention_Analysis, I created a visualization as shown in the screenshot below.
+- Using the results from [Retention_Analysis](https://github.com/Yeonjujung09/SQL-Portfolio/blob/main/project2-1_retention_analysis.sql), I created a visualization as shown in the screenshot below.
 <img width="854" alt="Retention_Analysis" src="https://github.com/user-attachments/assets/692afb82-309d-4832-8fdc-8dbc14c1eea5" />
 
-- Using the results from Revenue_Analysis, I generated a visualization and performed revenue predictions, as illustrated in the screenshot below.
+- Using the results from [Revenue_Analysis](https://github.com/Yeonjujung09/SQL-Portfolio/blob/main/project2-2_revenue_analysis.sql), I generated a visualization and performed revenue predictions, as illustrated in the screenshot below.
 <img width="618" alt="Revenue_Analysis" src="https://github.com/user-attachments/assets/a6c446d1-6ad1-4c2a-b0b5-97113a30a4c3" />
 
