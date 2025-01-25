@@ -28,7 +28,7 @@ Table 2: payment
 | 5| iteamE| 20000| 2019-12-01 | 975 |
 
 ## Outcome
-- Using the results from [Retention_Analysis](https://github.com/Yeonjujung09/SQL-Portfolio/blob/main/project2-1_retention_analysis.sql), I created this visualization in (excel).
+- Using the results from [Retention_Analysis](https://github.com/Yeonjujung09/SQL-Portfolio/blob/main/project2-1_retention_analysis.sql), I created this visualization in [Excel](https://github.com/Yeonjujung09/SQL-Portfolio/blob/main/project2-3_Retention%26Revenue_Analysis.xlsx).
 <img width="854" alt="Retention_Analysis" src="https://github.com/user-attachments/assets/692afb82-309d-4832-8fdc-8dbc14c1eea5" />
 
 - Using the results from [Revenue_Analysis](https://github.com/Yeonjujung09/SQL-Portfolio/blob/main/project2-2_revenue_analysis.sql), I created a visualization and a revenue simulator in Excel. Please refer to the attached [Excel file](https://github.com/Yeonjujung09/SQL-Portfolio/blob/main/project2-3_Retention%26Revenue_Analysis.xlsx) for details.
