@@ -4,7 +4,7 @@ Through this case study, I aim to demonstrate my skills in utilizing SQL to perf
 
 ## Overview
 ### Given tables
-Table 1: retention (Please see project2-1_creating_table_for_signup[https://github.com/Yeonjujung09/8-weeks-SQL-challenge/blob/main/project2-1_creating_table_for_signup.sql] for more details)
+Table 1: retention (Please see [project2-1_creating_table_for_signup](https://github.com/Yeonjujung09/8-weeks-SQL-challenge/blob/main/project2-1_creating_table_for_signup.sql) for more details)
 | user_id  |sign_up | last_login |
 | ---------| ----------| ------|
 | 1| 2019-01-01| 2019-06-03|
