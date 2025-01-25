@@ -1,55 +1,66 @@
-with temp_01 as -- month 추출, extracting months
+-- Create 7 CTEs
+-- t1: extract month from sign_up date and last_login date
+-- t2: count the number of lost users each month
+-- t3: count the number of users signed up each month
+-- t4: count the number of accumulated lost users each month
+-- t5: calculate the total number of payments and the sum of payment amounts per user_id using the payment table
+-- t6: add sign_month column to t5 by performing a join with t1
+-- t7: calculate the number of paid users and total revenue for December, grouped by signup month
+
+WITH t1 AS -- extract month from sign_up date and last_login date
 (
-select *, extract(month from sign_up)  as sign_mon, extract(month from last_login) as last_mon
-from retention
+SELECT *, EXTRACT(MONTH FROM sign_up) AS sign_month, EXTRACT(MONTH FROM last_login) AS last_month
+FROM retention
 )
-, temp_02 as (-- 월별 마지막 유저수 the number of lost users by month
-select sign_mon, last_mon, count(*) as lost
-from temp_01
-group by sign_mon, last_mon
-order by sign_mon, last_mon
-)
-, temp_03 as -- 월별 가입자수 signup user by month
+, t2 AS -- count the number of lost users each month
 (
-select sign_mon, count(*) as total
-from temp_01	
-group by sign_mon
-order by sign_mon
+SELECT sign_month, last_month, COUNT(*) AS lost
+FROM t1
+GROUP BY sign_month, last_month
 )
-, temp_04 as -- 월별 누적 중지 유저수 구하기 accumulated lost user by month
+, t3 AS -- count the number of users signed up each month
 (
-select t2.sign_mon as start, t2.last_mon as last, lost
-	   , sum(lost) over(partition by t2.sign_mon order by t2.last_mon rows between unbounded preceding and current row) as sum
-	   , t3.total as total_num
-from temp_02 t2
-	join temp_03 t3 on t3.sign_mon = t2.sign_mon
+SELECT sign_month, COUNT(*) AS cohort_size
+FROM t1	
+GROUP BY sign_month
 )
-, temp_05 as ( -- 12월의 유저별 결제횟수, 결제총액 payment count, total payment by user_id in December
-select user_id, count(*) as cnt, sum(amount) as total
-from payment
-group by user_id
-order by user_id
+, t4 AS -- count the number of accumulated lost users each month
+(
+SELECT t2.sign_month AS start
+	, t2.last_month AS last
+	, lost
+	, SUM(lost) OVER(PARTITION BY t2.sign_month ORDER BY t2.last_month ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) as cumlost
+	, cohort_size
+FROM t2
+JOIN t3 ON t3.sign_month = t2.sign_month
 )
-, temp_06 as ( -- 가입월 조인 join sign up month
-select t5.user_id, cnt, total, signup
-from temp_05 t5
-	join (select user_id, extract(month from sign_up) as signup
-from retention) r on r.user_id = t5.user_id
+, t5 AS -- calculate the total number of payments and the sum of payment amounts (revenue) per user_id for December
+(
+SELECT user_id, COUNT(*) AS payment_cnt, SUM(amount) AS revenue
+FROM payment
+GROUP BY user_id
 )
-, temp_07 as (
-select signup, count(total) as payingcount, sum(total) as payingsum -- 가입월에 따른 12월의 결제횟수 및 결제총액
-from temp_06
-group by signup
-order by signup
+, t6 AS -- add sign_month column to t5 by performing a join with t1
+(
+SELECT t5.user_id, revenue, sign_month
+FROM t5
+JOIN t1 ON t5.user_id = t1.user_id
 )
-select signup -- revenue 분석
-	, total as monthly_signup
-	, round(lost*100.0/t3.total,0) as retention_rate
-	, lost, round(payingcount*100.0/lost,0) as paying_rate
-	, payingcount
-	, round(payingsum/payingcount,0) as ARPPU
-	, payingsum
-from temp_07 t7
-	join temp_03 t3 on t3.sign_mon = t7.signup
-	join (select sign_mon, lost from temp_02 where last_mon = 12) t2 on t2.sign_mon = t7.signup
-order by signup;
+, t7 AS -- calculate the number of paid users and total revenue for December, grouped by signup month
+(
+SELECT sign_month, COUNT(*) AS paid_users, SUM(revenue) AS total_revenue
+FROM t6
+GROUP BY sign_month
+)
+SELECT t7.sign_month
+	, cohort_size
+	, ROUND(lost*100.0/cohort_size,0) AS retention_rate
+	, lost AS active_users -- the number of active users in December 2019
+	, paid_users
+	, ROUND(paid_users*100.0/lost,0) AS paid_user_ratio
+	, ROUND(total_revenue/paid_users,0) AS ARPPU
+	, total_revenue
+FROM t7
+JOIN t3 ON t3.sign_month = t7.sign_month
+JOIN (SELECT sign_month, lost FROM t2 WHERE last_month = 12) t2 ON t2.sign_month = t7.sign_month
+ORDER BY t7.sign_month;
