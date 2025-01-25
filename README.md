@@ -16,7 +16,7 @@ Table 1: retention
 | 4| 2019-01-01| 2019-04-19|
 | 5| 2019-01-01| 2019-06-25|
 
-Table 2: retention
+Table 2: payment
 - This table includes payment transaction records from December 2019 for revenue analysis
 (Please see [project2-1_table_creation_payment](https://github.com/Yeonjujung09/8-weeks-SQL-challenge/blob/main/project2-2_table_creation_payment.sql) for more details)
 
