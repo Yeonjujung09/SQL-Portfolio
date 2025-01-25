@@ -29,6 +29,7 @@ Table 2: payment
 
 ## Outcome
 - Using the results from [Retention_Analysis](https://github.com/Yeonjujung09/SQL-Portfolio/blob/main/project2-1_retention_analysis.sql), I created this visualization in [Excel](https://github.com/Yeonjujung09/SQL-Portfolio/blob/main/project2-3_Retention%26Revenue_Analysis.xlsx).
+
 <img width="854" alt="Retention_Analysis" src="https://github.com/user-attachments/assets/692afb82-309d-4832-8fdc-8dbc14c1eea5" />
 
 - Based on the results from [Revenue_Analysis](https://github.com/Yeonjujung09/SQL-Portfolio/blob/main/project2-2_revenue_analysis.sql) (first screenshot), I created a revenue simulator (second screenshot) in Excel. Please refer to the attached [Excel file](https://github.com/Yeonjujung09/SQL-Portfolio/blob/main/project2-3_Retention%26Revenue_Analysis.xlsx) for details.
