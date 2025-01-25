@@ -1,6 +1,6 @@
-drop table if exists retention;
+drop table if exists login;
 
-create table retention (user_id int not null, sign_up date, last_login date);
+create table login (user_id int not null, sign_up date, last_login date);
 
 INSERT into retention VALUES(1, '2019-01-01', '2019-06-03');
 INSERT into retention VALUES(2, '2019-01-01', '2019-11-02');
