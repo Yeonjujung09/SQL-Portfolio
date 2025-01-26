@@ -1,0 +1,26 @@
+--Q11
+WITH calls AS (
+SELECT
+FORMAT(call_date, 'yyyy-MM-dd HH') AS Hr
+,CAST(FORMAT(call_date, 'HH') AS INT) AS hour
+,call_ref
+FROM issue
+WHERE FORMAT(call_date, 'yyyy-MM-dd')= '2017-08-12'
+)
+,managers AS (
+SELECT
+manager
+,CAST(LEFT(start_time, 2) AS INT) AS start_time
+,CAST(LEFT(end_time, 2) AS INT)-1 AS end_time
+FROM shift
+JOIN shift_type ON shift.shift_type = shift_type.shift_type
+WHERE FORMAT(shift_date, 'yyyy-MM-dd')='2017-08-12'
+)
+SELECT
+Hr
+,manager
+,COUNT(*) AS cc
+FROM calls
+JOIN managers ON calls.hour BETWEEN managers.start_time AND managers.end_time
+GROUP BY Hr, manager
+ORDER BY Hr
