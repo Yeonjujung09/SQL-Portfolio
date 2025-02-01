@@ -34,6 +34,6 @@ Table 2: payment
 
 - Based on the results from [Revenue_Analysis](https://github.com/Yeonjujung09/SQL-Portfolio/blob/main/project2-2_revenue_analysis.sql) (first screenshot), I created a revenue simulator (second screenshot) in Excel. Please refer to the attached [Excel file](https://github.com/Yeonjujung09/SQL-Portfolio/blob/main/project2-3_Retention%26Revenue_Analysis.xlsx) for details.
 <img width="618" alt="Revenue_Analysis" src="https://github.com/user-attachments/assets/a6c446d1-6ad1-4c2a-b0b5-97113a30a4c3" />
-<img width="751" alt="Revenue_Simulator" src="https://github.com/user-attachments/assets/d85574d6-202a-47ab-8752-8a3b5185ee9b" />
+<img width="775" alt="Revenue Simulator" src="https://github.com/user-attachments/assets/d0f41db4-3331-4d84-9e07-ea970da9fa30" />
 
 
