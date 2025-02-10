@@ -1,6 +1,6 @@
 # SQL Project 2 - Retention Analysis
 
-Through this project, I aim to demonstrate my skills in utilizing SQL to perform retention and revenue analysis.
+In this project, I created a comprehensive table that tracks key metrics such as retention rate, paid user ratio, and ARPPU (Average Revenue per Paid User). The resulting table helps analyze user behavior and revenue trends, providing valuable insights to support data-driven decisions for business growth.
 
 ## Table Creation
 Table 1: retention
